@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types'
 import { gql, graphql, compose } from 'react-apollo';
 import './App.css';
 
-class App extends Component {
+export class App extends Component {
+  static propTypes = {
+    data: propTypes.object.isRequired
+  }
+
   handleCreate = () => {
     this.props.createThing('New Post: ' + Math.floor(Math.random() * 100));
   }
@@ -31,6 +36,7 @@ class App extends Component {
     );
   }
 }
+
 const thingsQuery = gql`
   query thingsQuery {
     allThings {
