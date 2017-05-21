@@ -9,7 +9,7 @@ class App extends Component {
 
   render() {
     console.log(this.props);
-    const { data } = this.props;
+    const { data, deleteThing } = this.props;
     if (data.networkStatus === 1) return <div>Loading</div>;
     const updateStyle = { opacity: 0.2 };
     return (
@@ -17,7 +17,13 @@ class App extends Component {
         Things (updated from PR):
         <ul>
           {data.allThings.map(thing =>
-            <li key={thing.id}>{thing.name}</li>
+            <li key={thing.id}>
+              <button aria-label="Delete"
+                onClick={() => deleteThing(thing.id)}>
+                X
+              </button>
+              {thing.name} ({thing.id})
+            </li>
           )}
         </ul>
         <button onClick={this.handleCreate}>Create</button>
@@ -40,12 +46,28 @@ const createThingMutation = gql`
     }
   }`;
 
+const deleteThingMutation = gql`
+  mutation deleteThing($id: ID!) {
+    deleteThing(id: $id) {
+      id
+    }
+  }
+`
+
 export default compose(
   graphql(thingsQuery, { options: { notifyOnNetworkStatusChange: true }, }),
   graphql(createThingMutation, {
     props: ({ mutate }) => ({
-      createThing: (name) => mutate({
+      createThing: name => mutate({
         variables: { name },
+        refetchQueries: ['thingsQuery']
+      })
+    })
+  }),
+  graphql(deleteThingMutation, {
+    props: ({ mutate }) => ({
+      deleteThing: id => mutate({
+        variables: { id },
         refetchQueries: ['thingsQuery']
       })
     })
