@@ -14,7 +14,7 @@ class App extends Component {
     const updateStyle = { opacity: 0.2 };
     return (
       <div style={data.networkStatus === 4 ? updateStyle : {}}>
-        Things (updated from PR):
+        Things (updated from PR 2):
         <ul>
           {data.allThings.map(thing =>
             <li key={thing.id}>{thing.name}</li>
