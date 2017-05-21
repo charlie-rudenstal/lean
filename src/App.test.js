@@ -6,7 +6,3 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App data={{ networkStatus: 1 }} />, div);
 });
-
-it('fails', () => {
-  expect(false).toBe(true);
-});
