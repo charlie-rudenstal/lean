@@ -22,7 +22,7 @@ class App extends Component {
                 onClick={() => deleteThing(thing.id)}>
                 X
               </button>
-              {thing.name} ({thing.id})
+              {thing.name}
             </li>
           )}
         </ul>
